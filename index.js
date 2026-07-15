@@ -11,3 +11,7 @@ const pool = new Pool({
     password: '12345678',
     port: 5432,
 });
+
+
+app.use(express.json());
+
