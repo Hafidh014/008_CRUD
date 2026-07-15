@@ -63,16 +63,16 @@ app.post('/biodata', async (req, res) => {
 app.put('/biodata/:id', async (req, res) => {
     try {
         const { id } = req.params;
-        const { nama, umur, alamat } = req.body;
+        const { nama, nim, kelas } = req.body;
 
         const result = await pool.query(
             `UPDATE biodata
-            SET nama = $1,
-                umur = $2,
-                alamat = $3
-            WHERE id = $4
-            RETURNING *`,
-            [nama, umur, alamat, id]
+             SET nama = $1,
+                 nim = $2,
+                 kelas = $3
+             WHERE id = $4
+             RETURNING *`,
+            [nama, nim, kelas, id]
         );
 
         if (result.rows.length === 0) {
@@ -88,12 +88,13 @@ app.put('/biodata/:id', async (req, res) => {
 
     } catch (err) {
         console.error(err.message);
-
         res.status(500).json({
             error: "Gagal mengupdate data"
         });
     }
 });
+
+
 //delete
 app.delete('/biodata/:id', async (req, res) => {
     try {
