@@ -39,11 +39,11 @@ app.listen(port, () => {
 //post
 app.post('/biodata', async (req, res) => {
     try {
-        const { nama, umur, alamat } = req.body;
+        const { id, nama, nim, kelas } = req.body;
 
         const result = await pool.query(
-            'INSERT INTO biodata (nama, umur, alamat) VALUES ($1, $2, $3) RETURNING *',
-            [nama, umur, alamat]
+            'INSERT INTO biodata (id, nama, nim, kelas) VALUES ($1, $2, $3, $4) RETURNING *',
+            [id, nama, nim, kelas]
         );
 
         res.status(201).json({
@@ -71,29 +71,29 @@ app.put('/biodata/:id', async (req, res) => {
                 umur = $2,
                 alamat = $3
             WHERE id = $4
-             RETURNING *`,
+            RETURNING *`,
             [nama, umur, alamat, id]
         );
 
         if (result.rows.length === 0) {
             return res.status(404).json({
-                message: 'Data tidak ditemukan'
+                message: "Data tidak ditemukan"
             });
         }
 
         res.status(200).json({
-            message: 'Data berhasil diperbarui',
+            message: "Data berhasil diperbarui",
             data: result.rows[0]
         });
 
     } catch (err) {
         console.error(err.message);
+
         res.status(500).json({
-            error: 'Gagal mengupdate data'
+            error: "Gagal mengupdate data"
         });
     }
 });
-
 //delete
 app.delete('/biodata/:id', async (req, res) => {
     try {
